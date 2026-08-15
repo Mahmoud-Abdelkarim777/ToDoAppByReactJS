@@ -1,14 +1,21 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-
-import './App.css'
-import TodoList from './Components/TodoList';
+import "./App.css";
+import TodoList from "./Components/TodoList";
 import { useState } from "react";
-import { TodosContext } from './Contexts/todosContext';
+import { TodosContext } from "./Contexts/todosContext";
+import { ToastContext } from "./Contexts/Toast";
 // import { v4 as uuidv4 } from "uuid";
-
+import toast, { Toaster } from "react-hot-toast";
+const notify = (message, type = "success") => {
+  if (type === "success") {
+    toast.success(message);
+  } else if (type === "error") {
+    toast.error(message);
+  }
+};
 // const initialTodos = [
 //   // {
 //   //   id: uuidv4(),
@@ -34,10 +41,22 @@ function App() {
   return (
     <>
       <TodosContext.Provider value={{ todosArray, setTodosArray }}>
-        <TodoList />
+        <ToastContext.Provider value={{ notify }}>
+          <TodoList />
+        </ToastContext.Provider>
       </TodosContext.Provider>
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              background: "green",
+              color: "white",
+            },
+          },
+        }}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

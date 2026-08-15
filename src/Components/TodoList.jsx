@@ -1,10 +1,12 @@
 import Todo from "./Todo";
 import { useState, useContext, useEffect } from "react";
 import { TodosContext } from "../Contexts/todosContext";
+import { ToastContext } from "../Contexts/Toast";
 import { v4 as uuidv4 } from "uuid";
 
 export default function TodoList() {
   const { todosArray, setTodosArray } = useContext(TodosContext);
+  const { notify } = useContext(ToastContext);
 
   const [inputValue, setInputValue] = useState("");
   const [displayedTodosType, setDisplayedTodosType] = useState("all");
@@ -48,6 +50,8 @@ export default function TodoList() {
     setTodosArray([...todosArray, newTodo]);
     localStorage.setItem("todos", JSON.stringify([...todosArray, newTodo]));
     setInputValue("");
+    // toast alert
+    notify("تمت إضافة المهمة بنجاح", "success");
   }
   return (
     <>

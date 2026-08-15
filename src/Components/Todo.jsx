@@ -1,9 +1,11 @@
 import "../App.css";
 import { useContext,useState } from "react";
 import { TodosContext } from "../Contexts/todosContext";
+import { ToastContext } from "../Contexts/Toast";
 export default function Todo({ todo }) {
   const [editValue, setEditModeValue] = useState(todo.title);
   const { todosArray, setTodosArray } = useContext(TodosContext);
+  const { notify } = useContext(ToastContext);
   function handleDoneClick() {
     const updatedTodos = todosArray.map((todoItem) => {
       if (todoItem.id === todo.id) {
@@ -13,6 +15,7 @@ export default function Todo({ todo }) {
     })
     setTodosArray(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    notify(" تم تغيير حالة المهمة بنجاح", "success");
   }
   function handleDeleteClick(){
     const updatedTodos = todosArray.filter((todoItem) => {
@@ -20,6 +23,7 @@ export default function Todo({ todo }) {
     })
     setTodosArray(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    notify("تم حذف المهمة بنجاح", "success");
   }
   function handelEditValue(){
     const updatedTodos = todosArray.map((todoItem) => {
@@ -30,6 +34,7 @@ export default function Todo({ todo }) {
     })
     setTodosArray(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    notify("   تم تعديل المهمة بنجاح", "success");
   }
   return (
     <>
